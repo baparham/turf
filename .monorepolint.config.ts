@@ -10,7 +10,7 @@ const TAPE_PACKAGES = []; // projects that have tape tests
 const TYPES_PACKAGES = []; // projects that have types tests
 
 // iterate all the packages and figure out what buckets everything falls into
-glob.sync(path.join(__dirname, "packages", "turf-*")).forEach(pk => {
+glob.sync(path.join(__dirname, "packages", "turf-*")).forEach((pk) => {
   const name = JSON.parse(
     fs.readFileSync(path.join(pk, "package.json"), "utf8")
   ).name;
@@ -59,10 +59,10 @@ module.exports = {
           "husky",
           "lint-staged",
           "devDependencies",
-          "dependencies"
-        ]
+          "dependencies",
+        ],
       },
-      includeWorkspaceRoot: true
+      includeWorkspaceRoot: true,
     },
 
     ":alphabetical-scripts": {},
@@ -79,11 +79,11 @@ module.exports = {
             files: ["dist", "index.d.ts", "turf.min.js"],
             exports: {
               import: "./dist/es/index.js",
-              require: "./dist/js/index.js"
-            }
-          }
+              require: "./dist/js/index.js",
+            },
+          },
         },
-        includePackages: [MAIN_PACKAGE]
+        includePackages: [MAIN_PACKAGE],
       },
       {
         options: {
@@ -96,30 +96,30 @@ module.exports = {
             },
             exports: {
               import: "./dist/es/index.js",
-              require: "./dist/js/index.js"
-            }
-          }
+              require: "./dist/js/index.js",
+            },
+          },
         },
-        includePackages: [...TS_PACKAGES, ...JS_PACKAGES]
+        includePackages: [...TS_PACKAGES, ...JS_PACKAGES],
       },
       {
         options: {
           entries: {
             types: "dist/js/index.d.ts",
-            files: ["dist"]
-          }
+            files: ["dist"],
+          },
         },
-        includePackages: TS_PACKAGES
+        includePackages: TS_PACKAGES,
       },
       {
         options: {
           entries: {
             types: "index.d.ts",
-            files: ["dist", "index.d.ts"]
-          }
+            files: ["dist", "index.d.ts"],
+          },
         },
-        includePackages: JS_PACKAGES
-      }
+        includePackages: JS_PACKAGES,
+      },
     ],
 
     ":package-script": [
@@ -129,10 +129,10 @@ module.exports = {
             bench: "npm-run-all prepare bench:run",
             "bench:run": "node bench.js",
             docs: "node ../../scripts/generate-readmes",
-            test: "npm-run-all prepare test:*"
-          }
+            test: "npm-run-all prepare test:*",
+          },
         },
-        excludePackages: [MAIN_PACKAGE]
+        excludePackages: [MAIN_PACKAGE],
       },
       {
         options: {
@@ -140,75 +140,77 @@ module.exports = {
             prepare: "npm-run-all prepare:*",
             "prepare:js": "tsc",
             "prepare:es":
-              "tsc --outDir dist/es --module esnext --declaration false && echo '{\"type\":\"module\"}' > dist/es/package.json"
-          }
+              'tsc --outDir dist/es --module esnext --declaration false && echo \'{"type":"module"}\' > dist/es/package.json',
+          },
         },
-        includePackages: TS_PACKAGES
+        includePackages: TS_PACKAGES,
       },
       {
         options: {
           scripts: {
-            prepare: "rollup -c ../../rollup.config.js && echo '{\"type\":\"module\"}' > dist/es/package.json",
-            posttest: "node -r esm ../../scripts/validate-es5-dependencies.js"
-          }
+            prepare:
+              'rollup -c ../../rollup.config.js && echo \'{"type":"module"}\' > dist/es/package.json',
+            posttest: "node -r esm ../../scripts/validate-es5-dependencies.js",
+          },
         },
-        includePackages: JS_PACKAGES
+        includePackages: JS_PACKAGES,
       },
       {
         options: {
           scripts: {
-            prepare: "rollup -c rollup.config.js && echo '{\"type\":\"module\"}' > dist/es/package.json"
-          }
+            prepare:
+              'rollup -c rollup.config.js && echo \'{"type":"module"}\' > dist/es/package.json',
+          },
         },
-        includePackages: [MAIN_PACKAGE]
+        includePackages: [MAIN_PACKAGE],
       },
       {
         options: {
           scripts: {
-            "test:tape": "node -r esm test.js"
-          }
+            "test:tape": "node -r esm test.js",
+          },
         },
-        includePackages: TAPE_PACKAGES
+        includePackages: TAPE_PACKAGES,
       },
       {
         options: {
           scripts: {
-            "test:types": "tsc --noEmit types.ts"
-          }
+            "test:types": "tsc --noEmit types.ts",
+          },
         },
-        includePackages: TYPES_PACKAGES
-      }
+        includePackages: TYPES_PACKAGES,
+      },
     ],
 
     ":alphabetical-dependencies": {
-      includeWorkspaceRoot: true
+      includeWorkspaceRoot: true,
     },
 
     ":require-dependency": [
       {
         options: {
           devDependencies: {
-            "npm-run-all": "*"
-          }
+            "npm-run-all": "*",
+          },
         },
-        includePackages: [...TS_PACKAGES, ...JS_PACKAGES]
+        includePackages: [...TS_PACKAGES, ...JS_PACKAGES],
       },
       {
         options: {
           devDependencies: {
-            typescript: "*"
-          }
+            typescript: "*",
+          },
         },
-        includePackages: TS_PACKAGES
+        includePackages: TS_PACKAGES,
       },
       {
         options: {
           devDependencies: {
-            rollup: "*"
-          }
+            rollup: "*",
+          },
         },
-        includePackages: JS_PACKAGES
-      }
-    ]
-  }
+        includePackages: JS_PACKAGES,
+      },
+    ],
+  },
 };
